@@ -31,7 +31,6 @@ int parcel[N][2];  // 荷物
 int main() {
     int pool[POOLSIZE][N];        // 染色体プール
     int ngpool[POOLSIZE * 2][N];  // 次世代染色体プール
-    int generation;               // 現在の世代数
 
     // 乱数の初期化
     srand(SEED);
@@ -106,7 +105,7 @@ int selectp(int roulette[POOLSIZE], int totalfitness) {
     int acc = 0;  // 適応度の積算値
     int i;        // カウンタ
 
-    // 適応度を高い染色体を選ぶ確率を高める
+    // 適応度が高い染色体を選ぶ確率を高める
     ball = rndn(totalfitness);
     for (i = 0; i < POOLSIZE; i++) {
         acc += roulette[i];  // 適応度を積算
@@ -164,7 +163,6 @@ void crossing(int m[], int p[], int c1[], int c2[]) {
 
 // 適応度の計算
 int evalfit(int gene[]) {
-    int pos;         // 遺伝子座の指定
     int value = 0;   // 評価値
     int weight = 0;  // 重量
 
