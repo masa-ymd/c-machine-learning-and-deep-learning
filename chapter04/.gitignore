@@ -1,2 +1,5 @@
 neuron
 nn
+#data.txt
+majority.txt
+bp
