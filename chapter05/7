@@ -8,7 +8,7 @@
 #define POOLSIZE 3      // プーリングの範囲
 #define POOLOUTSIZE 3   // プーリング層の出力サイズ
 #define MAXINPUTNO 100  // 入力データの最大数
-#define SEED 65503      // 乱数のシード
+#define SEED 65535      // 乱数のシード
 #define LIMIT 0.001     // 誤差の上限値
 #define BIGNUM 100      // 誤差の初期値
 #define HIDDENNO 3      // 中間層のニューロン数
@@ -82,7 +82,8 @@ int main() {
 
     // 入力データの読み込み
     n_of_e = getdata(e, t);
-    showdata(e, t, n_of_e);
+    printf("%d\n", n_of_e);
+    <`0`> showdata(e, t, n_of_e);
 
     // 誤差が閾値を下回るまで、重みの調整を繰り返す
     while (err > LIMIT) {
@@ -339,14 +340,13 @@ void showdata(double e[][INPUTSIZE][INPUTSIZE], int t[], int n_of_e) {
 int getdata(double e[][INPUTSIZE][INPUTSIZE], int t[]) {
     int i = 0, j = 0, k = 0;  // カウンタ
 
-    while (scanf("%d", &t[i]) != EOF) {             // 教師データ読込
+    while (scanf("%d", &t[i]) != EOF) {  // 教師データ読込
+        k++;
         while (scanf("%lf", &e[i][j][k]) != EOF) {  // 画像データ読込
-            k++;
-            printf("i=%d, j=%d, k=%d\n", i, j, k);
-            if (k >= INPUTSIZE) {  // 次の行
+            if (k >= INPUTSIZE) {                   //
                 k = 0;
                 j++;
-                if (j >= INPUTSIZE) {  // 1サンプル終了
+                if (j >= INPUTSIZE) {  //
                     break;
                 }
             }
