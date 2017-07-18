@@ -5,7 +5,7 @@
 #define INPUTNO 3       // 入力数
 #define HIDDENNO 3      // 中間層のニューロン数
 #define ALPHA 10        // 学習係数
-#define SEED 65535      // 乱数のシード
+#define SEED 655        // 乱数のシード
 #define MAXINPUTNO 100  // 入力データの最大数
 #define BIGNUM 100      // 誤差の初期値
 #define LIMIT 0.001     // 誤差の上限値
@@ -57,7 +57,7 @@ int main() {
             // 出力層の重みを調整
             olearn(wo, hi, e[i], o);
             // 中間層の重みを調整
-            hlearn(wh, wo, hi, e[i], 0);
+            hlearn(wh, wo, hi, e[i], o);
             // ２乗誤差
             err += (o - e[i][INPUTNO]) * (o - e[i][INPUTNO]);
         }
@@ -119,7 +119,7 @@ void hlearn(double wh[HIDDENNO][INPUTNO + 1], double wo[HIDDENNO + 1],
         dj = hi[i] * (1 - hi[i]) * wo[i] * (e[INPUTNO] - o) * o * (1 - o);
         for (j = 0; j < INPUTNO; j++) {
             // 中間層への入力毎の重みを更新
-            wh[j][i] += ALPHA * dj * e[j];
+            wh[i][j] += ALPHA * dj * e[j];
         }
         wh[i][j] += ALPHA * dj * (-1.0);  // 閾値の学習
     }
@@ -190,7 +190,7 @@ void print(double wh[HIDDENNO][INPUTNO + 1], double wo[HIDDENNO + 1]) {
 // 中間層の重みと閾値の初期化
 void initwh(double wh[HIDDENNO][INPUTNO + 1]) {
     for (int i = 0; i < HIDDENNO; i++) {
-        for (int j = 0; j < INPUTNO; j++) {
+        for (int j = 0; j < INPUTNO + 1; j++) {
             wh[i][j] = drnd();
         }
     }
@@ -198,7 +198,7 @@ void initwh(double wh[HIDDENNO][INPUTNO + 1]) {
 
 // 出力層の重みと閾値の初期化
 void initwo(double wo[HIDDENNO + 1]) {
-    for (int i = 0; i < HIDDENNO; i++) {
+    for (int i = 0; i < HIDDENNO + 1; i++) {
         wo[i] = drnd();
     }
 }
