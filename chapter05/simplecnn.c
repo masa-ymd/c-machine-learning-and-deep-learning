@@ -16,7 +16,7 @@
 #define POOLOUTSIZE 3   // プーリング層の出力サイズ
 #define MAXINPUTNO 100  // 入力データの最大数
 #define SEED 65503      // 乱数のシード
-#define LIMIT 0.001     // 誤差の上限値
+#define LIMIT 0.00001   // 誤差の上限値
 #define BIGNUM 100      // 誤差の初期値
 #define HIDDENNO 3      // 中間層のニューロン数
 #define ALPHA 10        // 学習係数
@@ -200,7 +200,7 @@ void hlearn(double wh[HIDDENNO][POOLOUTSIZE * POOLOUTSIZE * FILTERNO + 1],
              (e[POOLOUTSIZE * POOLOUTSIZE * FILTERNO] - o) * o * (1 - o);
         for (j = 0; j < POOLOUTSIZE * POOLOUTSIZE * FILTERNO; j++) {
             // 中間層への入力毎の重みを更新
-            wh[j][i] += ALPHA * dj * e[j];
+            wh[i][j] += ALPHA * dj * e[j];
         }
         // バイアス項は中間層から常に-1の入力がきているものに対する重みとして扱う
         wh[i][j] += ALPHA * dj * (-1.0);  // 閾値の学習
@@ -259,7 +259,7 @@ double forward(double wh[HIDDENNO][POOLOUTSIZE * POOLOUTSIZE * FILTERNO + 1],
 // 中間層の重みと閾値の初期化
 void initwh(double wh[HIDDENNO][POOLOUTSIZE * POOLOUTSIZE * FILTERNO + 1]) {
     for (int i = 0; i < HIDDENNO; i++) {
-        for (int j = 0; j < POOLOUTSIZE * POOLOUTSIZE * FILTERNO; j++) {
+        for (int j = 0; j < POOLOUTSIZE * POOLOUTSIZE * FILTERNO + 1; j++) {
             wh[i][j] = drnd();
         }
     }
